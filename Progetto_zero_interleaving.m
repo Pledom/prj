@@ -7,15 +7,15 @@
 % sequenza originaria                       x_n = 1,2,3,4,5,6,7,8,9,10...
 % sequenza zero_interleaved (fattore M = 3)  y_n= 1,0,0,4,0,0,7,0,0,10...
 
-% La sequenza di partenza x_n ha 400 campioni ed Ë fornita nel file zerointerleaving.mat
+% La sequenza di partenza x_n ha 400 campioni ed √® fornita nel file zerointerleaving.mat
 
 % Si richiede che lo script Matlab esegua le seguenti operazioni:
 
 % - generi la sequeza zero-interleaved y_n con M variabile (M = 2,3,...),
-% cioÈ si deve poter scegliere il numero di campioni (M-1) da azzerare. 
+% cio√© si deve poter scegliere il numero di campioni (M-1) da azzerare. 
 
 % - permetta di scegliere la posizione dei campioni non nulli, es. si chiede la 
-% possibilit‡ di generare M possibili sequenze con campioni non nulli in posizione 
+% possibilit√† di generare M possibili sequenze con campioni non nulli in posizione 
 % Mk, Mk+1, Mk+2, ... Mk+(M-1) con k = 0,1,2,... 
 
 % - rappresenti graficamente la sequenza x_n e le sequenze y_n (zero_interleaved) 
@@ -25,8 +25,8 @@
 % della sequenza x_n 
 
 % - rappresenti graficamente la sequenza originaria x_n e la sua versione
-% ricostruita, mostrando che la sequenza ricostruita Ë la stessa qualunque
-% sia la scelta della posizione dei campioni non nulli (purchÈ non vi siano fenomeni di alias). 
+% ricostruita, mostrando che la sequenza ricostruita √® la stessa qualunque
+% sia la scelta della posizione dei campioni non nulli (purch√© non vi siano fenomeni di alias). 
 
 % - permetta di valutare il massimo valore di M che non produce distorsione del segnale ricostrutito.
 
@@ -40,7 +40,7 @@ clc;
 prompt = ('Inserisci nome file :  ');
 nome_file = input (prompt, 's');
 load (nome_file);
-%load zerointerleaving ; %si puÚ trovare un modo per caricare direttamente in una variabile?
+%load zerointerleaving ; %si pu√≤ trovare un modo per caricare direttamente in una variabile?
 y = x; %crea un secondo vettore per non modificare sequenza originale
 dim = length(y);
 prompt = 'Inserisci M:  ';
@@ -55,14 +55,21 @@ for i=1:M:dim
         end
 end
 figure
-subplot (4,1,1)
+subplot (5,1,1)
 stem (x);
-subplot (4,1,2)
+subplot (5,1,2)
 stem (y);
-f  = linspace(-M,M);
-subplot (4,1,3)
-filtro = M*rectangularPulse(-M/2,M/2,f*M);
+f  = -f_s : 1 : f_s;
+%f  = linspace(-M,M);
+filtro = M*rectangularPulse(-M/2,M/2,f);
+% syms fx
+% fplot(rectangularPulse(fx), [-M/2 M/2])
+% filtro = M*rectangularPulse(-M/2,M/2,f*M);
 filtro_t = ifft (filtro);
-stem(filtro);
-subplot (4,1,4)
-stem(filtro_t);
+subplot (5,1,3)
+stem(f,filtro);
+subplot (5,1,4)
+stem(f,filtro_t);
+z = conv(y,filtro_t)
+
+%creare filtro rettangolo, tenerlo discreto, fare trasformata discreta. 
