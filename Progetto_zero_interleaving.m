@@ -60,7 +60,7 @@ end
 FILTRO
 figure
 f = linspace(-M,M);
-filtro = M*rectangularPulse(-M/2,M/2,f*M);
+filtro = M*rectangularPulse(-M/2,M/2,f);
 % syms fx
 % fplot(rectangularPulse(fx), [-M/2 M/2])
 filtro_t = fft (filtro);
